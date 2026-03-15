@@ -1,0 +1,1184 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人主页 | Anime Style</title>
+    <style>
+        :root {
+            --primary-color: #ff9a9e;
+            --secondary-color: #fad0c4;
+            --accent-color: #a18cd1;
+            --text-color: #555;
+            --bg-color: #f9f9f9;
+            --card-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 背景装饰 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(#ffffff 20%, transparent 20%),
+                radial-gradient(#ffffff 20%, transparent 20%);
+            background-color: transparent;
+            background-position: 0 0, 50px 50px;
+            background-size: 100px 100px;
+            opacity: 0.2;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .avatar-container {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 0 auto 20px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .avatar-container:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .avatar-placeholder {
+            font-size: 3rem;
+            color: var(--primary-color);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            color: white;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: var(--card-bg);
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: bold;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background-color: var(--primary-color);
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        main {
+            width: 100%;
+            animation: fadeInUp 1s ease-out 0.5s backwards;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "✦";
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 5rem;
+            color: var(--secondary-color);
+            opacity: 0.3;
+            transform: rotate(15deg);
+        }
+
+        h2 {
+            color: var(--accent-color);
+            border-bottom: 2px dashed var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            margin-top: 50px;
+            color: white;
+            font-size: 0.9rem;
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        /* 简单的浮动动画元素 */
+        .decoration {
+            position: fixed;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.6;
+            z-index: -1;
+        }
+
+        .d-1 { top: 10%; left: 10%; font-size: 2rem; animation-delay: 0s; }
+        .d-2 { top: 20%; right: 15%; font-size: 1.5rem; animation-delay: 2s; }
+        .d-3 { bottom: 15%; left: 20%; font-size: 2.5rem; animation-delay: 1s; }
+        .d-4 { bottom: 25%; right: 10%; font-size: 1.8rem; animation-delay: 3s; }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 模态框样式 */
+        .modal-overlay {
+            display: none; /* JS控制 */
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+        }
+
+        /* 模态框图片 */
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.5, 0.64, 1);
+        }
+        .modal-content.show {
+            transform: scale(1);
+        }
+
+        /* 左右切换动画 (需要 !important 覆盖 show 状态) */
+        .slide-out-left {
+            transform: translateX(-50px) scale(0.95) !important;
+            opacity: 0;
+        }
+        .slide-out-right {
+            transform: translateX(50px) scale(0.95) !important;
+            opacity: 0;
+        }
+        .prepare-from-right {
+            transform: translateX(50px) scale(0.95) !important;
+            opacity: 0;
+            transition: none !important; 
+        }
+        .prepare-from-left {
+            transform: translateX(-50px) scale(0.95) !important;
+            opacity: 0;
+            transition: none !important; 
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 装饰背景元素 -->
+    <div class="decoration d-1">🌸</div>
+    <div class="decoration d-2">✨</div>
+    <div class="decoration d-3">🎵</div>
+    <div class="decoration d-4">🍡</div>
+
+    <div class="container">
+        <header>
+            <div class="avatar-container">
+                <img src="touxiang.jpg" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <h1>我的小窝</h1>
+            <p class="tagline">既然只要相信就能实现，那就相信下去吧！</p>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="#home">首页</a></li>
+                <li><a href="#about">关于我</a></li>
+                <li><a href="#gallery">相册</a></li>                <li><a href="#music">音乐</a></li>                <li><a href="#portfolio">仓库</a></li>
+                <li><a href="#contact">留言</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <section id="home" class="card">
+                <h2>Welcome ~</h2>
+                <p>你好呀！欢迎来到我的个人主页。</p>
+                <p>这是一个二次元风格的小天地，在这里我会分享我的日常、喜欢的动漫以及一些有趣的代码。</p>
+                <p>希望能和志同道合的你成为朋友！(≧∇≦)ﾉ</p>
+            </section>
+
+            <section id="about" class="card">
+                <h2>About Me</h2>
+                <p><strong>昵称：</strong> 無名</p>
+                <p><strong>属性：</strong> 也是个普通的阿宅</p>
+                <p><strong>喜欢：</strong> 编程、追番、听歌、发呆</p>
+                <p>这里是一段简单的自我介绍。你可以在后面让我添加更多的内容板块哦！</p>
+            </section>
+            <section id="gallery" class="card">
+                <h2>Photo Gallery</h2>
+                <p>我的收藏与日常记录</p>
+                
+                <!-- 视图 1：相册封面列表 -->
+                <div id="gallery-entry-view" style="display: block;">
+                    <div class="gallery-albums-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                        <!-- 相册 1: 二次元 -->
+                        <div class="album-card" onclick="enterAlbum('anime')">
+                            <div class="album-cover" style="background: linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%);">🌸</div>
+                            <div class="album-info">
+                                <div class="album-title">二次元相册</div>
+                                <div class="album-count">17 张</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 相册 2: 阿嘉 -->
+                        <div class="album-card" onclick="enterAlbum('ajia')">
+                            <div class="album-cover" style="background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);">😺</div>
+                            <div class="album-info">
+                                <div class="album-title">阿嘉</div>
+                                <div class="album-count">0 张</div>
+                            </div>
+                        </div>
+
+                        <!-- 相册 3: 空 -->
+                        <div class="album-card empty">
+                            <div class="album-cover" style="background: #eee; color: #ccc;">+</div>
+                            <div class="album-info">
+                                <div class="album-title" style="color: #bbb;">敬请期待</div>
+                            </div>
+                        </div>
+
+                        <!-- 相册 4: 空 -->
+                        <div class="album-card empty">
+                            <div class="album-cover" style="background: #eee; color: #ccc;">+</div>
+                            <div class="album-info">
+                                <div class="album-title" style="color: #bbb;">敬请期待</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 视图 2：相册详情 (缩略图列表) -->
+                <div id="gallery-detail-view" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 id="current-album-title" style="margin: 0; color: var(--accent-color);">相册详情</h3>
+                        <button onclick="backToAlbums()" style="border: none; background: none; color: #666; cursor: pointer; font-size: 0.9em;">
+                            ← 返回相册集
+                        </button>
+                    </div>
+                    <div id="album-images-grid" class="gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px;">
+                        <!-- JS 动态填充图片 -->
+                    </div>
+                </div>
+
+
+                <style>
+                    /* 相册动画 */
+                    .album-card {
+                        background: rgba(255,255,255,0.6);
+                        border-radius: 12px;
+                        padding: 15px;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        gap: 15px;
+                        border: 1px solid rgba(255,255,255,0.8);
+                        transition: all 0.2s;
+                    }
+                    .album-card:not(.empty):hover {
+                        transform: translateY(-3px);
+                        background: rgba(255,255,255,0.9);
+                        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+                    }
+                    .album-card.empty { opacity: 0.6; cursor: default; }
+                    
+                    .album-cover {
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 10px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.5rem;
+                        color: white;
+                        flex-shrink: 0;
+                    }
+                    .album-title { font-weight: bold; color: var(--text-color); font-size: 1rem; }
+                    .album-count { font-size: 0.8rem; color: #888; margin-top: 3px; }
+
+                    /* 视图切换动画 */
+                    .view-fade-in {
+                        animation: fadeInView 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+                    }
+
+                    @keyframes fadeInView {
+                        from { opacity: 0; transform: translateY(10px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+
+                    /* 图片逐个加载动画 */
+                    .stagger-item {
+                        opacity: 0;
+                        animation: fadeInUpStagger 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+                    }
+
+                    @keyframes fadeInUpStagger {
+                        from { opacity: 0; transform: translateY(20px) scale(0.95); }
+                        to { opacity: 1; transform: translateY(0) scale(1); }
+                    }
+                </style>
+
+                <script>
+                    const galleryData = {
+                        'anime': [
+                            "images/680570.jpg",
+                            "images/052fd7d88d1001e981d80c32fe0e7bec55e79708.jpg",
+                            "images/16461a63dcd910cbcd4804ce00ca07cc30891976.png",
+                            "images/50e0d88ca9773912f6cc9d5cbe198618377ae20e.jpg",
+                            "images/8ceb4cfa3ea16d46891fadb6624142cc30891976.png",
+                            "images/d0eae037acaf2edd171b51d4cb1001e93801930e.jpg",
+                            "images/c0e8c6513a615674a129ba9f882667ac1060544882.png",
+                            "images/d6756adf4780a3c77de5bac521502d9630891976.png",
+                            "images/微信图片_20240120172626.jpg",
+                            "images/070a470513603d2c0d2bdd774722c2841060544882.png",
+                            "images/196dd8c28204bab389aa5e1068bd0a705e9499fa.jpg@1256w_838h_!web-article-pic.jpg",
+                            "images/2ea1af70e851ba7927b8d5a0572abfe41060544882.png",
+                            "images/862e03cedea108bbd7a72f02be0d4c7f1060544882.png",
+                            "images/_cgi-bin_mmwebwx-bin_webwxgetmsgimg__&MsgID=8056281894427094406&skey=@crypt_bb7949d1_877968fbc0ee8e803ffad65867b38007&mmweb_appid=wx_webfilehelper.jpg",
+                            "images/微信图片_20231225215631.jpg",
+                            "images/微信图片_20240119173732.jpg",
+                            "images/微信图片_20240120172603.jpg"
+                        ],
+                        'ajia': [] // 暂时为空
+                    };
+
+                    const galleryEntryView = document.getElementById('gallery-entry-view');
+                    const galleryDetailView = document.getElementById('gallery-detail-view');
+                    const albumGrid = document.getElementById('album-images-grid');
+                    const albumTitle = document.getElementById('current-album-title');
+
+                    function enterAlbum(albumKey) {
+                        const images = galleryData[albumKey];
+                        const titleMap = { 'anime': '二次元相册', 'ajia': '阿嘉' };
+                        
+                        // 从入口到详情的切换
+                        galleryEntryView.style.display = 'none'; // 立即隐藏入口
+                        galleryDetailView.style.display = 'block'; // 显示详情
+                        
+                        // 添加淡入动画
+                        galleryDetailView.classList.remove('view-fade-in');
+                        void galleryDetailView.offsetWidth; // 触发重绘
+                        galleryDetailView.classList.add('view-fade-in');
+
+                        // 更新标题
+                        albumTitle.innerText = titleMap[albumKey] || '相册详情';
+
+                        // 渲染图片
+                        albumGrid.innerHTML = '';
+                        if (images.length === 0) {
+                            albumGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #ccc; padding: 20px;">这里空空如也~</div>';
+                        } else {
+                            images.forEach((src, index) => {
+                                const div = document.createElement('div');
+                                div.className = 'stagger-item'; // 添加逐个加载动画类
+                                div.style.animationDelay = `${index * 50}ms`; // 设置延迟，形成波浪效果
+                                div.style.cssText += ' aspect-ratio: 1; overflow: hidden; border-radius: 8px; border: 1px solid rgba(0,0,0,0.1);';
+                                div.innerHTML = `<img src="${src}" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition: transform 0.3s;" onclick="viewImage('${src}')" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">`;
+                                albumGrid.appendChild(div);
+                            });
+                        }
+                    }
+
+                    function backToAlbums() {
+                        galleryDetailView.style.display = 'none';
+                        galleryEntryView.style.display = 'block';
+                        
+                        // 给入口视图也加上淡入动画
+                        galleryEntryView.classList.remove('view-fade-in');
+                        void galleryEntryView.offsetWidth;
+                        galleryEntryView.classList.add('view-fade-in');
+                    }
+                </script>
+            </section>
+
+            <section id="music" class="card">
+                <h2>Music Player</h2>
+                <p>听听我喜欢的歌吧 ♪(･ω･)ﾉ</p>
+                
+                <div class="music-wrapper">
+                    <!-- 左侧：播放控制 (始终显示) -->
+                    <div class="music-player-box">
+                        <div class="album-art" style="width: 100px; height: 100px; background: linear-gradient(45deg, #ff9a9e, #fad0c4); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; animation: spin 4s linear infinite; animation-play-state: paused; margin-bottom: 15px;">🎵</div>
+                        <div class="track-info" style="width: 100%;">
+                            <h3 id="track-title" style="margin: 0; color: var(--text-color); font-size: 1.1rem;">No Music</h3>
+                            <p id="track-artist" style="margin: 5px 0 15px; font-size: 0.9rem; color: #888;">Select a playlist ->></p>
+                            <div class="controls" style="display: flex; gap: 20px; align-items: center; justify-content: center;">
+                                <button onclick="prevTrack()" style="border: none; background: none; cursor: pointer; font-size: 1.5rem; color: var(--text-color);">⏮</button>
+                                <button onclick="togglePlay()" id="play-btn" style="border: none; background: var(--primary-color); color: white; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(255,154,158,0.4); font-size: 1.2rem;">▶</button>
+                                <button onclick="nextTrack()" style="border: none; background: none; cursor: pointer; font-size: 1.5rem; color: var(--text-color);">⏭</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右侧内容区域：切换歌单入口 / 歌曲列表 -->
+                    <div class="music-content-right">
+                        <!-- 视图 1：歌单入口 (默认显示) -->
+                        <div id="playlist-entry-view" style="display: block; height: 100%;">
+                            <div class="playlist-grid">
+                                <!-- 歌单 1 -->
+                                <div class="playlist-card" onclick="enterPlaylist('shuangsheng')">
+                                    <div class="card-cover" style="background: linear-gradient(135deg, #fccb90 0%, #d57eeb 100%);">♪</div>
+                                    <div class="card-title">双笙子</div>
+                                    <div class="card-desc">18 首</div>
+                                </div>
+                                <!-- 歌单 2 -->
+                                <div class="playlist-card" onclick="enterPlaylist('dongyang')">
+                                    <div class="card-cover" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);">❄️</div>
+                                    <div class="card-title">东洋雪莲</div>
+                                    <div class="card-desc">1 首</div>
+                                </div>
+                                <!-- 占位卡片 3 -->
+                                <div class="playlist-card empty">
+                                    <div class="card-cover" style="background: rgba(0,0,0,0.05); color: #ccc;">+</div>
+                                    <div class="card-title" style="color: #999;">敬请期待</div>
+                                </div>
+                                <!-- 占位卡片 4 -->
+                                <div class="playlist-card empty">
+                                    <div class="card-cover" style="background: rgba(0,0,0,0.05); color: #ccc;">+</div>
+                                    <div class="card-title" style="color: #999;">敬请期待</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 视图 2：歌曲列表 (默认隐藏) -->
+                        <div id="player-detail-view" style="display: none; height: 100%; flex-direction: column;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-shrink: 0;">
+                                <h3 id="current-playlist-name" style="margin: 0; font-size: 1rem; color: var(--primary-color);">播放列表</h3>
+                                <button onclick="backToPlaylists()" style="border: none; background: none; color: #666; cursor: pointer; font-size: 0.9em;">
+                                    ← 返回
+                                </button>
+                            </div>
+                            <div class="playlist-box">
+                                <ul id="playlist-ul" style="list-style: none; padding: 0; margin: 0;">
+                                    <!-- JS 动态生成 -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <audio id="audio-element"></audio>
+                
+                <style>
+                    /* 音乐播放器布局容器 - 固定高度 */
+                    .music-wrapper {
+                        display: flex;
+                        gap: 20px;
+                        height: 320px; /* 固定高度 */
+                        overflow: hidden; /* 防止溢出 */
+                    }
+
+                    /* 左侧播放器样式 */
+                    .music-player-box {
+                        flex: 0 0 35%; /* 固定左侧宽度比例 */
+                        min-width: 250px;
+                        background: rgba(255,255,255,0.6);
+                        padding: 20px;
+                        border-radius: 15px;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        text-align: center;
+                        border: 1px solid white;
+                        height: 100%;
+                    }
+
+                    /* 右侧内容区域样式 */
+                    .music-content-right {
+                        flex: 1;
+                        height: 100%;
+                        position: relative;
+                    }
+
+                    /* 歌单网格布局 */
+                    .playlist-grid {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        grid-template-rows: repeat(2, 1fr);
+                        gap: 15px;
+                        height: 100%;
+                    }
+
+                    /* 歌单卡片样式 */
+                    .playlist-card {
+                        background: rgba(255,255,255,0.5);
+                        border-radius: 12px;
+                        padding: 10px;
+                        cursor: pointer;
+                        transition: transform 0.2s, background 0.2s;
+                        border: 1px solid rgba(255,255,255,0.6);
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        text-align: center;
+                    }
+                    .playlist-card:not(.empty):hover {
+                        transform: translateY(-2px);
+                        background: rgba(255,255,255,0.8);
+                        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                    }
+                    .playlist-card.empty {
+                        opacity: 0.5;
+                        cursor: default;
+                        background: rgba(255,255,255,0.3);
+                    }
+                    .card-cover {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 8px;
+                        margin-bottom: 5px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.2em;
+                        color: white;
+                    }
+                    .card-title { font-weight: bold; color: var(--text-color); margin-bottom: 0; font-size: 0.9em; }
+                    .card-desc { font-size: 0.75rem; color: #888; }
+                    
+                    /* 歌曲列表滚动区域 */
+                    .playlist-box {
+                        flex: 1;
+                        overflow-y: auto;
+                        background: rgba(255,255,255,0.4);
+                        border-radius: 10px;
+                        padding: 10px;
+                        border: 1px solid rgba(255,255,255,0.5);
+                        height: 100%; /* 占满剩余空间 */
+                    }
+                    /* 滚动条美化 */
+                    .playlist-box::-webkit-scrollbar { width: 6px; }
+                    .playlist-box::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 3px; }
+                    
+                    .playlist-item {
+                        padding: 8px 12px;
+                        border-bottom: 1px solid rgba(255,255,255,0.5);
+                        cursor: pointer;
+                        display: flex;
+                        justify-content: space-between;
+                        font-size: 0.9em;
+                        transition: background 0.2s;
+                        border-radius: 5px;
+                        margin-bottom: 4px;
+                    }
+                    .playlist-item:hover {
+                        background: rgba(255,255,255,0.5);
+                    }
+                    .playlist-item.active {
+                        background: var(--primary-color);
+                        color: white;
+                    }
+                    .playlist-item .song-title { font-weight: bold; }
+                    .playlist-item .song-artist { font-size: 0.8em; opacity: 0.8; }
+                    
+                    /* 简单的旋转动画 */
+                    @keyframes spin { 100% { transform: rotate(360deg); } }
+                    .playing .album-art { animation-play-state: running !important; }
+
+                    /* 移动端适配 */
+                    @media (max-width: 600px) {
+                        .music-wrapper {
+                            height: auto;
+                            flex-direction: column;
+                        }
+                        .music-player-box {
+                            min-height: 200px;
+                        }
+                        .music-content-right {
+                            height: 300px; /* 移动端给右侧一个固定高度 */
+                        }
+                    }
+                </style>
+                
+                <script>
+                    // 音乐数据中心
+                    const allPlaylists = {
+                        'shuangsheng': [
+                            { title: "大鱼 （Cover 周深）", artist: "双笙（陈元汐）", src: "music/双笙（陈元汐） - 大鱼 （Cover 周深）.mp3" },
+                            { title: "心做し", artist: "双笙（陈元汐）", src: "music/双笙（陈元汐） - 心做し.mp3" },
+                            { title: "扬州姑娘", artist: "双笙（陈元汐）", src: "music/双笙（陈元汐） - 扬州姑娘.mp3" },
+                            { title: "故梦（一周年礼物）（Cover 橙翼）", artist: "双笙（陈元汐）", src: "music/双笙（陈元汐） - 故梦（一周年礼物）（Cover 橙翼）.mp3" },
+                            { title: "月出", artist: "双笙（陈元汐）", src: "music/双笙（陈元汐） - 月出.mp3" },
+                            { title: "棠梨煎雪（Cover 银临）", artist: "双笙（陈元汐）", src: "music/双笙（陈元汐） - 棠梨煎雪（Cover 银临）.mp3" },
+                            { title: "离歌", artist: "双笙（陈元汐）", src: "music/双笙（陈元汐） - 离歌.mp3" },
+                            { title: "说谎者之舞（Cover 初音）", artist: "双笙（陈元汐）", src: "music/双笙（陈元汐） - 说谎者之舞（Cover 初音）.mp3" },
+                            { title: "达拉崩吧（Cover 洛天依 ／ 言和）", artist: "双笙（陈元汐）", src: "music/双笙（陈元汐） - 达拉崩吧（Cover 洛天依 ／ 言和）.mp3" },
+                            { title: "镜花水月", artist: "双笙（陈元汐）", src: "music/双笙（陈元汐） - 镜花水月.mp3" },
+                            { title: "纯白", artist: "双笙（陈元汐）,V.K克", src: "music/双笙（陈元汐）,V.K克 - 纯白.mp3" },
+                            { title: "白石溪（Cover 洛天依 ／ 乐正绫）", artist: "双笙（陈元汐）,冥月", src: "music/双笙（陈元汐）,冥月 - 白石溪（Cover 洛天依 ／ 乐正绫）.mp3" },
+                            { title: "世末歌者（Cover 乐正绫）", artist: "双笙（陈元汐）,封茗囧菌", src: "music/双笙（陈元汐）,封茗囧菌 - 世末歌者（Cover 乐正绫）.mp3" },
+                            { title: "巷（Cover 洛天依）", artist: "双笙（陈元汐）,封茗囧菌", src: "music/双笙（陈元汐）,封茗囧菌 - 巷（Cover 洛天依）.mp3" },
+                            { title: "霜雪千年（Cover 洛天依 ／ 乐正绫）", artist: "双笙（陈元汐）,封茗囧菌", src: "music/双笙（陈元汐）,封茗囧菌 - 霜雪千年（Cover 洛天依 ／ 乐正绫）.mp3" },
+                            { title: "桃花笑（Cover 洛天依+言和+乐正绫）", artist: "双笙（陈元汐）,封茗囧菌,安蕾尔", src: "music/双笙（陈元汐）,封茗囧菌,安蕾尔 - 桃花笑（Cover 洛天依+言和+乐正绫）.mp3" },
+                            { title: "腐草为萤（Cover 银临）", artist: "双笙（陈元汐）,排骨教主", src: "music/双笙（陈元汐）,排骨教主 - 腐草为萤（Cover 银临）.mp3" },
+                            { title: "那一天从梦中醒来", artist: "双笙（陈元汐）,秋风MusiX", src: "music/双笙（陈元汐）,秋风MusiX - 那一天从梦中醒来.mp3" }
+                        ],
+                        'dongyang': [
+                            { title: "我本将心向明月", artist: "东洋雪莲", src: "music/我本将心向明月.mp3" }
+                        ]
+                    };
+
+                    // 自动更新歌单数量显示
+                    function updatePlaylistCounts() {
+                        const allCards = document.querySelectorAll('.playlist-card[onclick*="enterPlaylist"]');
+                        allCards.forEach(card => {
+                            const onclickAttr = card.getAttribute('onclick');
+                            const match = onclickAttr.match(/enterPlaylist\('([^']+)'\)/);
+                            if (match && match[1]) {
+                                const key = match[1];
+                                const list = allPlaylists[key];
+                                if (list) {
+                                    const desc = card.querySelector('.card-desc');
+                                    if (desc) {
+                                        desc.innerText = list.length + ' 首';
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    // 初始化时调用一次
+                    updatePlaylistCounts();
+
+                    let currentPlaylistKey = 'shuangsheng'; // 当前歌单key
+                    let currentPlaylist = allPlaylists[currentPlaylistKey]; // 当前播放列表
+                    let currentTrack = 0; // 当前歌曲索引
+                    
+                    const audio = document.getElementById('audio-element');
+                    const playBtn = document.getElementById('play-btn');
+                    const playerBox = document.querySelector('.music-player-box');
+                    const playlistUl = document.getElementById('playlist-ul');
+                    
+                    const playlistEntryView = document.getElementById('playlist-entry-view');
+                    const playerDetailView = document.getElementById('player-detail-view');
+
+                    // 进入歌单详情
+                    function enterPlaylist(key) {
+                        currentPlaylistKey = key;
+                        currentPlaylist = allPlaylists[key];
+                        currentTrack = 0; // 重置为第一首
+
+                        // 切换视图
+                        playlistEntryView.style.display = 'none';
+                        playerDetailView.style.display = 'flex'; // 注意：Detail View 原本是 flex
+
+                        // 动画
+                        playerDetailView.classList.remove('view-fade-in');
+                        void playerDetailView.offsetWidth;
+                        playerDetailView.classList.add('view-fade-in');
+
+                        // 初始化列表并加载第一首歌
+                        initPlaylist();
+                        loadTrack(0);
+                    }
+
+                    // 返回歌单列表
+                    function backToPlaylists() {
+                        playerDetailView.style.display = 'none';
+                        playlistEntryView.style.display = 'block';
+
+                        // 动画
+                        playlistEntryView.classList.remove('view-fade-in');
+                        void playlistEntryView.offsetWidth;
+                        playlistEntryView.classList.add('view-fade-in');
+                    }
+
+                    function initPlaylist() {
+                        playlistUl.innerHTML = '';
+                        if (currentPlaylist.length === 0) {
+                             playlistUl.innerHTML = '<li style="padding:10px; color:#666;">暂无歌曲</li>';
+                             return;
+                        }
+
+                        currentPlaylist.forEach((track, index) => {
+                            const li = document.createElement('li');
+                            li.className = 'playlist-item';
+                            // 逐个加载动画
+                            li.classList.add('stagger-item');
+                            li.style.animationDelay = `${index * 30}ms`;
+
+                            li.innerHTML = `
+                                <div class="song-info">
+                                    <div class="song-title">${track.title}</div>
+                                    <div class="song-artist">${track.artist}</div>
+                                </div>
+                            `;
+                            li.onclick = () => {
+                                if (currentTrack === index && !audio.paused) {
+                                    togglePlay(); // 如果点击当前正在播放的，暂停
+                                    return;
+                                }
+                                currentTrack = index;
+                                loadTrack(currentTrack);
+                                // 强制重载并播放
+                                audio.load(); 
+                                audio.play().then(() => {
+                                    playBtn.innerText = "⏸";
+                                    playerBox.classList.add('playing');
+                                }).catch(e => console.error("播放出错:", e));
+                            }
+                            playlistUl.appendChild(li);
+                        });
+                        updatePlaylistActive();
+                    }
+
+                    function updatePlaylistActive() {
+                        const items = document.querySelectorAll('.playlist-item');
+                        items.forEach((item, index) => {
+                            if (index === currentTrack) {
+                                item.classList.add('active');
+                                item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            } else {
+                                item.classList.remove('active');
+                            }
+                        });
+                    }
+                    
+                    function loadTrack(index) {
+                        if (currentPlaylist.length === 0) return;
+                        const track = currentPlaylist[index];
+                        document.getElementById('track-title').innerText = track.title;
+                        document.getElementById('track-artist').innerText = track.artist;
+                        audio.src = track.src;
+                        updatePlaylistActive();
+                    }
+                    
+                    function togglePlay() {
+                        if (currentPlaylist.length === 0 || !audio.src) return;
+
+                        if(audio.paused) {
+                            audio.play().catch(e => console.error("播放失败:", e));
+                            playBtn.innerText = "⏸";
+                            playerBox.classList.add('playing');
+                        } else {
+                            audio.pause();
+                            playBtn.innerText = "▶";
+                            playerBox.classList.remove('playing');
+                        }
+                    }
+                    
+                    function prevTrack() {
+                        if (currentPlaylist.length === 0) return;
+                        currentTrack = (currentTrack - 1 + currentPlaylist.length) % currentPlaylist.length;
+                        loadTrack(currentTrack);
+                        if(playerBox.classList.contains('playing')) audio.play();
+                    }
+                    
+                    function nextTrack() {
+                        if (currentPlaylist.length === 0) return;
+                        currentTrack = (currentTrack + 1) % currentPlaylist.length;
+                        loadTrack(currentTrack);
+                        if(playerBox.classList.contains('playing')) audio.play();
+                    }
+
+                    // 自动播放下一首
+                    audio.addEventListener('ended', nextTrack);
+                    
+                    // 默认不主动加载，等待用户点击 enterPlaylist
+                    // 如果希望默认加载第一个列表但不显示，可以保留，但视图上默认是歌单列表
+                </script>
+            </section>
+
+            <section id="portfolio" class="card">
+                <h2>My Projects</h2>
+                <p>这里是我的一些开源小项目，欢迎 Star ~ ⭐</p>
+                
+                <div class="repo-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <!-- 项目 1 -->
+                    <div class="repo-card" style="background: rgba(255,255,255,0.6); padding: 15px; border-radius: 15px; border: 1px solid #ddd; transition: transform 0.2s;">
+                        <h3 style="color: var(--primary-color);">Mujica Project</h3>
+                        <p style="font-size: 0.9rem; margin: 10px 0;">这是一个基于 Python 的神秘预言项目...</p>
+                        <div style="display: flex; gap: 10px; font-size: 0.8rem; color: #666;">
+                            <span>🔵 Python</span>
+                            <span>⭐ 100+</span>
+                        </div>
+                        <a href="#" style="display: inline-block; margin-top: 10px; color: var(--accent-color); text-decoration: none; font-weight: bold;">View Code →</a>
+                    </div>
+
+                    <!-- 项目 2 -->
+                    <div class="repo-card" style="background: rgba(255,255,255,0.6); padding: 15px; border-radius: 15px; border: 1px solid #ddd; transition: transform 0.2s;">
+                        <h3 style="color: var(--primary-color);">Anime website</h3>
+                        <p style="font-size: 0.9rem; margin: 10px 0;">纯前端实现的二次元风格个人主页模板。</p>
+                        <div style="display: flex; gap: 10px; font-size: 0.8rem; color: #666;">
+                            <span>🟠 HTML/CSS</span>
+                            <span>⭐ 50+</span>
+                        </div>
+                        <a href="#" style="display: inline-block; margin-top: 10px; color: var(--accent-color); text-decoration: none; font-weight: bold;">View Code →</a>
+                    </div>
+                </div>
+            </section>        </main>
+
+        <footer>
+            <p>© 2026 My Personal Website. Made with ❤️</p>
+        </footer>
+    </div>
+
+    <div id="imageModal" class="modal-overlay">
+        <span onclick="closeModal()" style="position:absolute; top:20px; right:30px; color:#f1f1f1; font-size:40px; font-weight:bold; cursor:pointer; z-index:1001;">&times;</span>
+        <!-- 左右切换按钮 -->
+        <a class="prev" onclick="changeImage(-1)" style="cursor:pointer; position:absolute; top:50%; left:20px; width:auto; padding:16px; margin-top:-22px; color:white; font-weight:bold; font-size:30px; transition: 0.6s ease; border-radius: 0 3px 3px 0; user-select:none; z-index:1001; background-color: rgba(0,0,0,0.3);">&#10094;</a>
+        <a class="next" onclick="changeImage(1)" style="cursor:pointer; position:absolute; top:50%; right:20px; width:auto; padding:16px; margin-top:-22px; color:white; font-weight:bold; font-size:30px; transition: 0.6s ease; border-radius: 3px 0 0 3px; user-select:none; z-index:1001; background-color: rgba(0,0,0,0.3);">&#10095;</a>
+        
+        <img class="modal-content" id="modalImg">
+    </div>
+
+
+    <button id="backToTop" onclick="scrollToTop()">
+        ↑
+    </button>
+
+    <style>
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(50px); /* 初始位置向下偏移，准备向上滑入 */
+            transition: all 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28); /* 添加弹性滑动效果 */
+            z-index: 998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #backToTop.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        #backToTop:hover {
+            transform: translateY(-5px);
+            background-color: #ff8a90;
+            box-shadow: 0 6px 15px rgba(255,154,158,0.4);
+        }
+    </style>
+
+    <script>
+        // Back to Top 按钮逻辑
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                btn.classList.add('show');
+            } else {
+                btn.classList.remove('show');
+            }
+        });
+
+        function scrollToTop() {
+            smoothScrollTo(0, 800); // 800ms 滚动到顶部
+        }
+
+        // 自定义平滑滚动效果 (easeInOutCubic)
+        function smoothScrollTo(targetPosition, duration) {
+            const startPosition = window.scrollY;
+            const distance = targetPosition - startPosition;
+            let startTime = null;
+
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                
+                // 缓动函数: easeInOutCubic (加速 -> 迅速 -> 减速)
+                const ease = (t) => {
+                    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+                };
+
+                const run = ease(Math.min(timeElapsed / duration, 1));
+                window.scrollTo(0, startPosition + distance * run);
+
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animation);
+                }
+            }
+
+            requestAnimationFrame(animation);
+        }
+
+        // 导航链接平滑滚动
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    const targetPosition = targetSection.offsetTop - 20;
+                    smoothScrollTo(targetPosition, 800); // 800ms 滚动到目标
+                }
+            });
+        });
+
+        // 图片查看器逻辑
+        let currentImageIndex = 0;
+        
+        // 获取当前显示的相册图片集合
+        function getGalleryImages() {
+             // 优先查找相册详情页里的图片
+             const detailImages = document.querySelectorAll('#album-images-grid img');
+             if(detailImages.length > 0) return detailImages;
+             
+             // 如果没在详情页（备用），查找旧版类名
+             return document.querySelectorAll('.gallery-item img');
+        }
+
+        function viewImage(src) {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImg");
+            const galleryImages = getGalleryImages();
+            
+            modal.style.display = "flex";
+            modalImg.src = src;
+
+            // 触发重绘
+            void modal.offsetWidth;
+            
+            // 使用类来控制显示状态，避免行内样式冲突
+            modal.classList.add('show');
+            modalImg.classList.add('show');
+
+            // 找到当前点击图片的索引
+            // 注意：img.src 是绝对路径，传入的 src 可能是相对路径，所以用 getAttribute('src') 对比更稳健
+            // 或者对比文件名结尾
+            currentImageIndex = 0; // 默认防错
+            for (let i = 0; i < galleryImages.length; i++) {
+                const img = galleryImages[i];
+                if (img.getAttribute('src') === src || img.src === src || img.src.endsWith(src)) {
+                    currentImageIndex = i;
+                    break;
+                }
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImg");
+            
+            // 移除显示类，触发淡出和缩小动画
+            modal.classList.remove('show');
+            modalImg.classList.remove('show');
+            
+            setTimeout(() => {
+                if (!modal.classList.contains('show')) { // 防止快速切换导致的问题
+                    modal.style.display = "none";
+                }
+            }, 300); // 等待过渡动画结束
+        }
+        
+        let isAnimating = false;
+
+        function changeImage(n) {
+            if (isAnimating) return; // 防止连续点击过快
+            isAnimating = true;
+
+            const modalImg = document.getElementById("modalImg");
+            const galleryImages = getGalleryImages();
+            
+            // 1. 根据方向决定动画类
+            // n=1 (下一张)，当前图也要"往左跑" (变成 slide-out-left)
+            // n=-1 (上一张)，当前图"往右跑" (变成 slide-out-right)
+            const exitClass = n > 0 ? "slide-out-left" : "slide-out-right";
+            // 下一张图要从右边进来 (prepare-from-right)
+            // 上一张图要从左边进来 (prepare-from-left)
+            const enterPrepareClass = n > 0 ? "prepare-from-right" : "prepare-from-left";
+            
+            // 开始退出动画
+            modalImg.classList.add(exitClass);
+            
+            // 等待 CSS transition 结束 (300ms)
+            setTimeout(() => {
+                // 2. 更换图片源
+                currentImageIndex += n;
+                if (currentImageIndex >= galleryImages.length) {
+                    currentImageIndex = 0;
+                } else if (currentImageIndex < 0) {
+                    currentImageIndex = galleryImages.length - 1;
+                }
+                modalImg.src = galleryImages[currentImageIndex].src;
+                
+                // 3. 瞬间重置位置到"准备进入"的状态
+                modalImg.classList.remove(exitClass);
+                modalImg.classList.add(enterPrepareClass);
+                
+                // 强制浏览器重绘 (Force Reflow)，让刚才的 class 变更生效
+                void modalImg.offsetWidth; 
+                
+                // 4. 移除准备类，触发正常的 transition 动画回归原位
+                modalImg.classList.remove(enterPrepareClass);
+                
+                // 动画结束标记
+                setTimeout(() => {
+                    isAnimating = false;
+                }, 300);
+            }, 300);
+        }
+
+        // 键盘支持
+        document.addEventListener('keydown', function(event) {
+            if (document.getElementById("imageModal").style.display === "flex") {
+                if (event.key === "ArrowLeft") {
+                    changeImage(-1);
+                } else if (event.key === "ArrowRight") {
+                    changeImage(1);
+                } else if (event.key === "Escape") {
+                    closeModal();
+                }
+            }
+        });
+        
+        // 触摸滑动支持 (手机端)
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        const modal = document.getElementById("imageModal");
+        modal.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        modal.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) changeImage(1); // 向左滑，下一张
+            if (touchEndX > touchStartX + 50) changeImage(-1); // 向右滑，上一张
+        }
+
+        // 点击背景关闭
+        document.getElementById("imageModal").addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        console.log("Welcome to my anime world! (OwO)/");
+    </script>
+</body>
+</html>
