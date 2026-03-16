@@ -312,7 +312,7 @@
             <section id="home" class="card">
                 <h2>Welcome ~</h2>
                 <p>你好呀！欢迎来到我的个人主页。</p>
-                <p>这是一个二次元风格的小天地，在这里我会分享我的日常、喜欢的动漫以及一些有趣的代码。</p>
+                <p>这是一个二次元风格的小天地，在这里我会分享我的相册、音乐以及一些有趣的代码。</p>
                 <p>希望能和志同道合的你成为朋友！(≧∇≦)ﾉ</p>
             </section>
 
@@ -335,7 +335,7 @@
                             <div class="album-cover" style="background: linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%);">🌸</div>
                             <div class="album-info">
                                 <div class="album-title">二次元相册</div>
-                                <div class="album-count">17 张</div>
+                                <div class="album-count">18 张</div>
                             </div>
                         </div>
                         
@@ -464,6 +464,33 @@
                     const galleryDetailView = document.getElementById('gallery-detail-view');
                     const albumGrid = document.getElementById('album-images-grid');
                     const albumTitle = document.getElementById('current-album-title');
+
+                    // 初始化相册封面及数量
+                    function initAlbumCovers() {
+                        for (const [key, images] of Object.entries(galleryData)) {
+                             const card = document.querySelector(`div[onclick="enterAlbum('${key}')"]`);
+                             if (card) {
+                                 // 更新数量
+                                 const countDiv = card.querySelector('.album-count');
+                                 if (countDiv) {
+                                     countDiv.innerText = `${images.length} 张`;
+                                 }
+
+                                 // 更新封面
+                                 if (images.length > 0) {
+                                     const coverDiv = card.querySelector('.album-cover');
+                                     if (coverDiv) {
+                                         coverDiv.innerHTML = `<img src="${images[0]}" style="width: 100%; height: 100%; object-fit: cover;">`;
+                                         coverDiv.style.background = 'none'; // 清除背景色
+                                         coverDiv.style.padding = '0';
+                                         coverDiv.style.overflow = 'hidden';
+                                     }
+                                 }
+                             }
+                        }
+                    }
+                    // 调用初始化
+                    initAlbumCovers();
 
                     function enterAlbum(albumKey) {
                         const images = galleryData[albumKey];
@@ -734,7 +761,9 @@
                             { title: "那一天从梦中醒来", artist: "双笙（陈元汐）,秋风MusiX", src: "music/双笙（陈元汐）,秋风MusiX - 那一天从梦中醒来.mp3" }
                         ],
                         'dongyang': [
-                            { title: "我本将心向明月", artist: "东洋雪莲", src: "music/我本将心向明月.mp3" }
+                            { title: "我本将心向明月", artist: "东洋雪莲", src: "music/我本将心向明月.mp3" },
+                            { title: "咏春", artist: "东洋雪莲", src: "music/咏春.mp3" }
+
                         ]
                     };
 
